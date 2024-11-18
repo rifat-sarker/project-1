@@ -9,12 +9,18 @@ const port = 3000;
 // parser
 app.use(express_1.default.json());
 app.use(express_1.default.text());
-app.get('/', (req, res) => {
+// middleware
+const logger = (req, res, next) => {
+    console.log(req.url, req.method, req.hostname);
+    // next();
+};
+app.get('/', logger, (req, res) => {
+    console.log(req.query);
     res.send('Hello Developer');
 });
-app.post("/", (req, res) => {
+app.post("/", logger, (req, res) => {
     console.log(req.body);
-    // res.send("got data")
+    // res.send("got data")  
     res.send({ message: "successfully received data" });
 });
 exports.default = app;
